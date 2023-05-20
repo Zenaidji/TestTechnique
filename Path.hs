@@ -16,6 +16,8 @@ shortestPath::[Path]->Path
 shortestPath l=head (filter(\x->lengthPath x==minimum (map lengthPath l)) l) 
 
 
+
+
 rid::Route->(Int, Int)
 rid ((x,_,_),(y,_,_))=(x,y)
 
@@ -28,13 +30,20 @@ enumerateAllStops path=snd path
 filterPathsWithStops::[Path]->[Path]
 filterPathsWithStops l=filter (\p -> length (enumerateAllStops p)>0) l
 
+
+
+theShortestPathWithStops::[Path]->Path
+theShortestPathWithStops paths= shortestPath (filterPathsWithStops paths)
+
           
 path :: [Path]
-path = [([((1, 1.0, 1.0), (2, 2.0, 2.0)), ((3, 3.0, 3.0), (4, 4.0, 4.0)), ((5, 5.0, 5.0), (6, 6.0, 6.0))], []),
-        ([((1, 1.0, 1.0), (2, 2.0, 2.0)), ((3, 3.0, 3.0), (4, 4.0, 4.0)), ((5, 5.0, 5.0), (6, 6.0, 6.0))], [(1, 2.0, 2.0)])]
+path = [([((1, 1.0, 1.0), (2, 2.0, 2.0)), ((3, 20.0, 3.0), (4, 8.0, 4.0)), ((5, 5.0, 5.0), (6, 6.0, 6.0))], []),
+        ([((8, 0.0, 0.0), (9, 0.0, 0.0)), ((10, 0.0, 0.0), (10,0.0, 0.0)), ((11, 0.0, 0.0), (12, 0.0, 0.0))], [(1, 2.0, 2.0)]),([((1, 1.0, 1.0), (2, 2.0, 2.0)), ((3, 3.0, 3.0), (4, 4.0, 4.0)), ((5, 5.0, 5.0), (6, 1.0, 6.0))], [(0,0.0,0.0)])]
 
-l= filterPathsWithStops path
-v=idShortestPath l
+z=minimum (map lengthPath path)
+l= theShortestPathWithStops path
+
+
 
 
 
