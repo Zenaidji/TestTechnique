@@ -1,7 +1,7 @@
-type Point=(Int,Double,Double)
-type Route=(Point, Point)
-type Stops=[Point]
-type Path=([Route],[Stops])
+type Point'=(Int,Double,Double)
+type Route=(Point', Point')
+type Stops=[Point']
+type Path=([Route],Stops)
 
 
 lengthRoute::Route->Double
@@ -16,20 +16,28 @@ shortestPath::[Path]->Path
 shortestPath l=head (filter(\x->lengthPath x==minimum (map lengthPath l)) l) 
 
 
-id::Route->(Int, Int)
-id ((x,_,_),(y,_,_))=(x,y)
+rid::Route->(Int, Int)
+rid ((x,_,_),(y,_,_))=(x,y)
 
-idShortestPath::[Path]->[Int]
-idShortestPath l= fst shortestPath l
+idShortestPath::[Path]->[(Int,Int)]
+idShortestPath l= map rid (fst (shortestPath l))
+
+enumerateAllStops::Path->Stops
+enumerateAllStops path=snd path
+
+filterPathsWithStops::[Path]->[Path]
+filterPathsWithStops l=filter (\p -> length (enumerateAllStops p)>0) l
+
           
+path :: [Path]
+path = [([((1, 1.0, 1.0), (2, 2.0, 2.0)), ((3, 3.0, 3.0), (4, 4.0, 4.0)), ((5, 5.0, 5.0), (6, 6.0, 6.0))], []),
+        ([((1, 1.0, 1.0), (2, 2.0, 2.0)), ((3, 3.0, 3.0), (4, 4.0, 4.0)), ((5, 5.0, 5.0), (6, 6.0, 6.0))], [(1, 2.0, 2.0)])]
+
+l= filterPathsWithStops path
+v=idShortestPath l
 
 
 
-
-path=[([((1,1,1),(2,2,2)),((3,3,3),(4,4,4)),((5,5,5),(6,6,6))],[]),([((1,1,1),(2,2,2)),((3,3,3),(4,4,4)),((5,5,5),(6,6,6))],[]),([((1,1,1),(2,2,2)),((3,3,3),(4,4,4)),((5,5,5),(6,6,6))],[])]
-l= shortestPath path
-
- 
 
 
 
